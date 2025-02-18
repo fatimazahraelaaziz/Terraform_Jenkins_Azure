@@ -3,3 +3,4 @@ terraform.tfvars
 **/*.tfstate.*
 **/.terraform.lock.hcl
 **/.terraform/*
+notes.docx
