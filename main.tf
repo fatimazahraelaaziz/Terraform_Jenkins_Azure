@@ -58,7 +58,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-# Création du réseau virtuel (équivalent au VPC AWS)
+# Création du réseau virtuel 
 resource "azurerm_virtual_network" "vnet" {
   name                = "Terraform-VNet"
   location            = azurerm_resource_group.rg.location
@@ -66,7 +66,7 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.1.0.0/16"] # Plage d'adresses du réseau
 }
 
-# Création des sous-réseaux (équivalent aux subnets AWS)
+# Création des sous-réseaux 
 resource "azurerm_subnet" "subnet1" {
   name                 = "Subnet-01"
   resource_group_name  = azurerm_resource_group.rg.name
@@ -83,7 +83,7 @@ resource "azurerm_subnet" "subnet2" {
   address_prefixes     = ["10.1.2.0/24"]
 }
 
-# Création du groupe de sécurité réseau (équivalent au Security Group AWS)
+# Création du groupe de sécurité réseau 
 resource "azurerm_network_security_group" "nsg" {
   name                = "Terraform-NSG"
   location            = azurerm_resource_group.rg.location
@@ -135,7 +135,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   # Ajout de la clé SSH pour connexion sécurisée
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file("~/.ssh/id_rsa.pub") # 
+    public_key = file("~/.ssh/id_rsa.pub") 
   }
 
   # Configuration du disque OS
