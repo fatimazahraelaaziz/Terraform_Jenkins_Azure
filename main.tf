@@ -100,6 +100,21 @@ resource "azurerm_network_security_rule" "allow_ssh" {
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
 
+# Ajout d'une règle pour autoriser Jenkins (port 8080)
+resource "azurerm_network_security_rule" "allow_jenkins" {
+  name                        = "Allow-Jenkins"
+  priority                    = 110 # La priorité doit être unique (différente de la règle SSH)
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*" # Autoriser l'accès depuis n'importe quelle adresse IP
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.nsg.name
+}
+
 # Création d'adresses IP publiques pour chaque machine virtuelle
 resource "azurerm_public_ip" "public_ip" {
   for_each            = toset(["jenkins-master", "jenkins-slave", "ansible"])
