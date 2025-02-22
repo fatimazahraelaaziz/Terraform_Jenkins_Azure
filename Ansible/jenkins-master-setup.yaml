@@ -1,0 +1,48 @@
+---
+- name: Install Java and Jenkins on Ubuntu 22.04
+  hosts: jenkins-master
+  become: yes
+
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+        update_cache: yes
+
+    - name: Install OpenJDK 17 
+      apt:
+        name: openjdk-17-jdk
+        state: present
+
+    - name: Add Jenkins repository key
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins repository to sources list
+      apt_repository:
+        repo: 'deb http://pkg.jenkins.io/debian-stable binary/'
+        state: present
+
+    - name: Update apt package index again after adding Jenkins repository
+      apt:
+        update_cache: yes
+
+    - name: Download and install init-system-helpers (>= 1.54)
+      apt:
+        deb: http://archive.ubuntu.com/ubuntu/pool/main/i/init-system-helpers/init-system-helpers_1.62_all.deb
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Start and enable Jenkins service
+      systemd:
+        name: jenkins
+        enabled: yes
+        state: started

@@ -139,7 +139,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   # Ajout de la clé SSH pour connexion sécurisée
   admin_ssh_key {
     username   = var.admin_username
-    public_key = file("~/.ssh/id_rsa.pub") # Remplacez par le chemin de votre clé SSH
+    public_key = file("~/.ssh/id_rsa.pub") 
   }
 
   # Configuration du disque OS
